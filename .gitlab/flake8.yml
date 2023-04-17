@@ -1,0 +1,26 @@
+include:
+  - project: <your_project>/ci-linters
+    file: .gitlab/workflow.yml
+
+flake8:
+  extends: .workflow
+  image: registry.gitlab.com/pipeline-components/flake8:latest
+  before_script:
+    - pip install \
+      yesqa \
+      flake8-bugbear \
+      flake8-class-attributes-order \
+      flake8-comprehensions \
+      flake8-eradicate \
+      flake8-print \
+      flake8-simplify \
+      flake8-quotes
+      flake8-docstrings \
+  script:
+    - flake8 .
+      --verbose
+      --statistics
+      --max-line-length=100
+      --max-doc-length=100
+      --exclude=migrations,alembic
+      --ignore=D100,D107,D400,B008,D200

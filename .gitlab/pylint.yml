@@ -1,0 +1,13 @@
+include:
+  - project: <your_project>/ci-linters
+    file: .gitlab/workflow.yml
+
+pylint:
+  extends: .workflow
+  image: registry.gitlab.com/pipeline-components/pylint:latest
+  script:
+    - find . -type f -name "*.py" | xargs pylint
+      --ignore-paths=database/migrations,database/include.py
+      --max-line-length=100
+      --disable=C0114,E0401,R0903
+      --output-format=colorized

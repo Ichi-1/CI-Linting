@@ -1,0 +1,19 @@
+include:
+  - project: <your_project>/ci-linters
+    file: .gitlab/workflow.yml
+
+sonar:
+  extends: .workflow
+  when: manual
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  script: 
+    - sonar-scanner
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache

@@ -1,0 +1,17 @@
+stages:
+  - linting
+  - deploy
+
+.workflow:
+  stage: linting
+  rules:
+    - changes:
+      - /*.{py}
+
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
+      allow_failure: false
+
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true

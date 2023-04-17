@@ -1,0 +1,18 @@
+include:
+  - project: <your_project>/ci-linters
+    file: .gitlab/workflow.yml
+
+mypy:
+  extends: .workflow
+  image: python:3.11.1-alpine3.17
+  before_script:
+    - pip install mypy
+  script:
+    - mypy .
+      --install-types
+      --non-interactive
+      --exclude=migrations
+      --pretty
+      --implicit-optional
+      --ignore-missing-imports
+      --explicit-package-bases
